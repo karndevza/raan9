@@ -1,0 +1,220 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="utf-8">
+  <title>โปรแกรมออกบิลร้านอาหาร รองรับ มือถือ </title>  
+ 
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" 
+        integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+  <link rel=stylesheet href=https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css> 
+
+
+
+  <script src="https://cdn.jsdelivr.net/npm/vue@2.6.11"></script>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+
+
+  <!-- <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script> -->
+
+
+</head>
+
+    <div class="container col-md-6" id="item">
+      <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="index.html">สั่งอาหาร</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarTogglerDemo02" aria-controls="navbarTogglerDemo02" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarTogglerDemo02">
+          <ul class="navbar-nav mr-auto mt-2 mt-lg-0">
+            <li class="nav-item active">
+              <a class="nav-link" href="index.html">Home <span class="sr-only">(current)</span></a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="item.html">สินค้า</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="#">เก็บเงิน</a>
+            </li>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle" href="#" id="dropdown09" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">รายงาน</a>
+              <div class="dropdown-menu" aria-labelledby="dropdown09">
+                <a class="dropdown-item" href="report.html">ยอดขายรายวัน</a>
+                <a class="dropdown-item" href="#">ยอดขายพนักงาน</a>
+                <a class="dropdown-item" href="#">สรุปยอดรายงาน</a>
+              </div>
+            </li>
+          </ul>        
+        </div>
+      </nav>
+
+
+        <div class="row text-center">
+         <div class="col-4">
+            <button type="button" class="btn btn-primary"  v-model="!frmmenu">เพิ่ม</button>
+         </div>
+         <!-- <div class="col-4">
+          <button type="button" class="btn btn-primary">{{ textMenu_2 }}</button>
+         </div>
+         <div class="col-4">
+          <button type="button" class="btn btn-primary"  v-if="total()" @click="checkout(total())" >{{ textMenu_3 }}</button>
+         </div>  -->
+       </div> 
+      
+      <hr>       
+      <div class="text-center" v-if="!frmmenu">
+
+            <lable>เพิ่มเมนู : </lable>
+            <form class="needs-validation" novalidate>
+              <div class="form-row">
+              <div class="col-md-4 mb-3">
+                <input type="hidden"  id="itemid" v-model="itemid"  value=" itemid "  >
+                <label for="validationTooltip01">ชื่อเมนู</label>
+                <input type="text" class="form-control" v-model="itemname" id="validationTooltip01" placeholder="ชื่ออาหาร" value=" xid " required>
+                <div class="valid-tooltip">
+                  Looks good!
+                </div>
+              </div>
+              <div class="col-md-3 mb-3">
+                <label for="validationTooltip01">ประเภท</label>
+                <select   v-model="itemtype" class="custom-select" id="inlineFormCustomSelectPref">
+                  <option selected>เลือก...</option>
+                  <option v-for=" type in typemenu " >{{ type.val}}</option>             
+                </select>
+                <!-- <input  type="checkbox" class="form-control" id="validationTooltip01" placeholder="ประเภทเมนู" value="Mark" required> -->
+                <div class="valid-tooltip">
+                  Looks good!
+                </div>
+              </div>
+              <div class="col-md-1 mb-3">
+                <label for="validationTooltip01">ราคา</label>
+                <input type="text" class="form-control" v-model="itemprice" placeholder="ราคา" value=" itemprice " required>
+                <div class="valid-tooltip">
+                  Looks good!
+                </div>
+              </div>
+              <div class="col-md-1 mb-3">
+                <label for="validationTooltip01">Stock</label>
+                <input type="text" class="form-control"  v-model="stockqty" placeholder="stockqty" value=" stockqty " required>
+                <div class="valid-tooltip">
+                  Looks good!
+                </div>
+              </div>
+
+            </div>
+
+              </form>
+            <!-- <select v-model="newItem" v-model="selected">
+                <option v-for=" memu in listmenu " > {{  memu.id + ':' + memu.name }}</option>         
+            </select> -->
+            <!-- <span> Select : {{ selected }}  v-on:click="addItem()" </span> -->
+
+            <button type="button" class="btn btn-primary" @click="addItem()">+</button>
+      </div>
+      <hr>
+
+   <!--  <div class="row">  tabel start -->
+
+
+    
+
+    <table class="table text-center">
+      <!-- <caption class="text-right">3 รายการ</caption>
+      <caption class="text-right">ราคารวม 60 บาท</caption> -->
+      <thead  class="thead-dark">
+        <tr>
+          <th scope="col">#</th>
+          <th scope="col">รายการ</th>
+          <th scope="col">จำนวน</th>
+          <th scope="col">ราคา</th>
+          <th scope="col">[ - ]</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(item ,index ) in items_all">
+          <th scope="row" >{{ index + 1 }}</th>
+          <td>{{ item.name }}</td>
+          <td style=font-size:24>
+            <i class="fa fa-plus-square-o" style=font-size:18px;color:green  @click="plusQty(index)" ></i>
+            {{ item.stockqty }}
+             <i class="fa fa-minus-square-o" style=font-size:18px;color:red @click="minusQty(index)"></i>               
+        
+
+          </td>
+          <td>{{ item.price }}</td>
+          <td @click="removeItem(index)"> <i class="fa fa-trash" style=font-size:18px;color:red ></i>  </td>
+        </tr>
+        
+      </tbody>
+      <tfoot>
+        <!-- <tr>
+          <td> {{ items.length }} รายการ</td>
+          <td class="text-right" colspan="2"> ราคารวม </td>
+          <td> {{ total() }} </td>
+          <td> บาท </td>
+        </tr> -->
+
+      </tfoot>
+    </table>
+    <!--</div>  tabel end -->
+    <div class="text-right">      
+
+      <!-- v-if="total()"  @click="checkout(total())" -->
+      <!-- <button type="button" class="btn btn-primary " >เก็บเงิน</button> -->
+    </div>
+
+      <hr>
+      <div class="row">
+         <ul class="list-group" >         
+            <il class="list-group-item" v-for=" menuitem in items_all " > {{ menuitem.name }}</il>
+         </ul>
+      </div>
+
+
+  </div>
+
+  <!--  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+  The core Firebase JS SDK is always required and must be listed first 
+<script src="https://www.gstatic.com/firebasejs/7.15.5/firebase-app.js"></script> -->
+<script src="https://www.gstatic.com/firebasejs/7.2.0/firebase.js"></script>
+<!-- <script  src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script> -->
+
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyAQ9nnJwLprygegqRRW3MshiPGJiKXcP4A",
+    authDomain: "raan9za.firebaseapp.com",
+    databaseURL: "https://raan9za.firebaseio.com",
+    projectId: "raan9za",
+    storageBucket: "raan9za.appspot.com",
+    messagingSenderId: "697901778832",
+    appId: "1:697901778832:web:4acc92d92725a26f631515",
+    measurementId: "G-4PJE88P97C"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+ 
+</script>
+
+<script src="assets/js/items.js"></script>
+
+<!-- <script src="https://cdn.datatables.net/1.10.16/js/jquery.dataTables.min.js"></script>
+<script src="https://cdn.datatables.net/1.10.16/js/dataTables.bootstrap4.min.js"></script>
+<script>
+  $(document).ready(function() {
+  $('#example').DataTable({   
+
+  });
+  } );
+  </script> -->
+  
+
+</body>
+</html>
